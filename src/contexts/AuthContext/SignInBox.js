@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import FormError from '../FormError';
+import FormError from '../../components/FormError';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -45,6 +45,7 @@ export default function SignInBox({ signIn, toSignUp }) {
 		clearErrors,
 		reset,
 		watch,
+		getValues,
 	} = useForm();
 	// Form(s) submitting
 	const [loading, setLoading] = useState(false);
@@ -53,7 +54,14 @@ export default function SignInBox({ signIn, toSignUp }) {
 	// Contains user data when waiting to confirm sign up, null otherwise
 	const [confirmData, setConfirmData] = useState(null);
 
+	function toggleSigningUp() {
+		// Reset form but persist values
+		reset(getValues());
+		setSigningUp(!signingUp);
+	}
+
 	function preSubmit() {
+		// Submission errors are saved as general, so always clear those prior to saving
 		clearErrors('general');
 	}
 
@@ -186,11 +194,7 @@ export default function SignInBox({ signIn, toSignUp }) {
 			{!confirmData && (
 				<Grid container justify="flex-end">
 					<Grid item>
-						<Link
-							variant="body2"
-							component="button"
-							onClick={() => setSigningUp(!signingUp)}
-						>
+						<Link variant="body2" component="button" onClick={toggleSigningUp}>
 							{signingUp
 								? 'Already have an account? Sign in'
 								: "Don't have an account? Sign up"}

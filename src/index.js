@@ -1,45 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Amplify } from 'aws-amplify';
-import config from './config';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { AuthProvider } from './AuthContext';
+import { AuthProvider } from './contexts/AuthContext';
+import { configure as awsConfigure } from './libs/aws';
+import App from './App';
 
-Amplify.configure({
-	Auth: {
-		mandatorySignIn: true,
-		region: config.cognito.REGION,
-		userPoolId: config.cognito.USER_POOL_ID,
-		identityPoolId: config.cognito.IDENTITY_POOL_ID,
-		userPoolWebClientId: config.cognito.APP_CLIENT_ID,
-	},
-	Storage: {
-		region: config.s3.REGION,
-		bucket: config.s3.BUCKET,
-		identityPoolId: config.cognito.IDENTITY_POOL_ID,
-	},
-	API: {
-		endpoints: [
-			{
-				name: 'notes',
-				endpoint: config.apiGateway.URL,
-				region: config.apiGateway.REGION,
-			},
-		],
-	},
-});
+awsConfigure();
 
 ReactDOM.render(
 	<React.StrictMode>
-		<Container component="main" maxWidth="xs">
-			<CssBaseline />
-			<AuthProvider>
-				<App />
-			</AuthProvider>
-		</Container>
+		<AuthProvider>
+			<App />
+		</AuthProvider>
 	</React.StrictMode>,
 	document.getElementById('root')
 );
