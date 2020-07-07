@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { storeFile, getFile } from '../libs/aws';
+import { storeFile } from '../libs/aws';
 
 export default function useNotes() {
 	const [notes, setNotes] = useState([]);
