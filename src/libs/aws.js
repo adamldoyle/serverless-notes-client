@@ -1,21 +1,40 @@
 import { Amplify, Storage } from 'aws-amplify';
 
-const config = {
+const dev = {
 	s3: {
 		REGION: 'us-east-1',
-		BUCKET: 'adamldoyle-notes',
+		BUCKET: 'serverless-notes-2-api-dev-attachmentsbucket-fu9w6jbk96j1',
 	},
 	apiGateway: {
 		REGION: 'us-east-1',
-		URL: 'https://yeenhsdfvj.execute-api.us-east-1.amazonaws.com/prod',
+		URL: 'https://8hur8tizoj.execute-api.us-east-1.amazonaws.com/dev',
 	},
 	cognito: {
 		REGION: 'us-east-1',
-		USER_POOL_ID: 'us-east-1_GB9AKcVLY',
-		APP_CLIENT_ID: '4dker76ltislnlq4guok1bjf7g',
-		IDENTITY_POOL_ID: 'us-east-1:a86c1a34-80ff-4586-b0ac-ca86117ed902',
+		USER_POOL_ID: 'us-east-1_Sdz7rYcXn',
+		APP_CLIENT_ID: '7uqs1fh7iv7r8v33klkhnih0oe',
+		IDENTITY_POOL_ID: 'us-east-1:68255eba-b2aa-4db7-aa53-1acc1f731c8d',
 	},
 };
+
+const prod = {
+	s3: {
+		REGION: 'us-east-1',
+		BUCKET: 'serverless-notes-2-api-prod-attachmentsbucket-5fqyqtjr490c',
+	},
+	apiGateway: {
+		REGION: 'us-east-1',
+		URL: 'https://7527zzjqh0.execute-api.us-east-1.amazonaws.com/prod',
+	},
+	cognito: {
+		REGION: 'us-east-1',
+		USER_POOL_ID: 'us-east-1_BAvauKQtB',
+		APP_CLIENT_ID: '1oh6l707r8b3aeam0ainhbh4db',
+		IDENTITY_POOL_ID: 'us-east-1:15adae19-3be8-453e-b985-f04f9867cdb8',
+	},
+};
+
+const config = process.env.REACT_APP_STAGE === 'prod' ? prod : dev;
 
 export function configure() {
 	Amplify.configure({
