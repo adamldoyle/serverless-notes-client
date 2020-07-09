@@ -1,17 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
+import { initSentry } from './libs/error';
 import { AuthProvider } from './contexts/AuthContext';
 import { configure as awsConfigure } from './libs/aws';
+import ErrorBoundary from './components/ErrorBoundary';
 import App from './App';
 
+initSentry();
 awsConfigure();
 
 ReactDOM.render(
 	<React.StrictMode>
-		<AuthProvider>
-			<App />
-		</AuthProvider>
+		<ErrorBoundary>
+			<AuthProvider>
+				<App />
+			</AuthProvider>
+		</ErrorBoundary>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

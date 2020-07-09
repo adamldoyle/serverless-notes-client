@@ -40,16 +40,16 @@ export default function NoteCreate({ createNote, onSave }) {
 	const classes = useStyles();
 
 	function preSubmit() {
-    clearErrors('general');
-  }
+		clearErrors('general');
+	}
 
 	async function onSubmit(data) {
 		setLoading(true);
 		try {
-      await createNote(data.content, data.attachment?.[0] );
-      onSave();
+			await createNote(data.content, data.attachment?.[0]);
+			onSave();
 		} catch (err) {
-		  setError('general', { type: 'manual', message: err.message });
+			setError('general', { type: 'manual', message: err.message });
 			setLoading(false);
 		}
 	}
@@ -94,8 +94,8 @@ export default function NoteCreate({ createNote, onSave }) {
 						variant="contained"
 						color="primary"
 						className={classes.submit}
-            disabled={loading}
-            onClick={preSubmit}
+						disabled={loading}
+						onClick={preSubmit}
 					>
 						Create
 					</Button>

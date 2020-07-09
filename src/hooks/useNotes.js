@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { storeFile } from '../libs/aws';
+import { onError } from '../libs/error';
 
 export default function useNotes() {
 	const [notes, setNotes] = useState([]);
 
 	function reload() {
-		API.get('notes', '/notes').then(setNotes);
+		API.get('notes', '/notes').then(setNotes).catch(onError);
 	}
 
 	useEffect(() => {
@@ -15,14 +16,19 @@ export default function useNotes() {
 
 	async function createNote(content, attachmentFile) {
 		const attachment = attachmentFile ? await storeFile(attachmentFile) : null;
-		await API.post('notes', '/notes', {
-			body: {
-				content,
-				attachment,
-			},
-    });
-    reload();
-  }
+		try {
+			await API.post('notes', '/notes', {
+				body: {
+					content,
+					attachment,
+				},
+			});
+		} catch (err) {
+			onError(err);
+			throw err;
+		}
+		reload();
+	}
 
 	return { notes, createNote, reload };
 }

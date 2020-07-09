@@ -3,6 +3,7 @@ import { Auth } from 'aws-amplify';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import SignInBox from './SignInBox';
+import { onError } from '../../libs/error';
 
 const AuthContext = React.createContext({
 	authenticating: true,
@@ -36,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 		try {
 			await Auth.signOut();
 		} catch (err) {
-			console.error(err);
+			onError(err);
 		} finally {
 			setSession(null);
 		}

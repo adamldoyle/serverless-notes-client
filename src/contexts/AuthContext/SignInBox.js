@@ -12,6 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormError from '../../components/FormError';
+import { onError } from '../../libs/error';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -88,6 +89,7 @@ export default function SignInBox({ signIn, toSignUp }) {
 		} catch (err) {
 			setError('general', { type: 'manual', message: err.message });
 			setLoading(false);
+			onError(err);
 		}
 	}
 
